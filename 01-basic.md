@@ -78,9 +78,9 @@ x || y;;
 
 imperative language와는 다르게, if-then-else문이 statement가 아닌, **expression**이다
 
-즉, if a then b else c 라고 했을 때,
-- a가 true이면 b로 evaluate된다.
-- a가 false이면 c로 evaluate된다.
+즉, if a then b else c 라고 했을때,
+- a가 true이면 b로 evaluate
+- a가 false이면 c로 evaluate
 - 타입은 b와 c를 따라간다.
 
 ```OCaml
@@ -96,25 +96,107 @@ let x = "test"
 let _ = 1 + 1
 ```
 
-## Function Definitions 
+## Function
+
+### Definitions
 
 ```OCaml
 # let add x = x + 1;;
 val add : int -> int = <fun>
+
 # increment 0;;
 - : int = 1
+
 # let rec fact n = (*recursive function def*)
   if n = 0 then 1 else n * fact (n-1)
 val fact : int -> int = <fun>
 ```
 
-### Anonymous function
+### Anonymous Function
 ```OCaml
 # fun x -> x - 1;;
 -: int -> int = <fun>
 ```
 
+### Function Application
 
+- Application style
+```OCaml
+square (inc 5)
+```
 
+-Pipeline style
+```OCaml
+5 |> inc |> square
+```
 
+### Polymorphic Functions
 
+Functions taking many types of values
+
+```OCaml
+# let id x = x;;
+id : 'a -> 'a = <fun>
+```
+* 'a는 unknown type을 의미한다.
+
+### Partial Application
+
+function을 argument의 subset에 부분적으로 적용할 수 있다.
+
+```OCaml
+let add x y = x + y;;
+let add5 = add 5;;
+add5 2;; (* result: 7 *)
+```
+
+### Higher-order Functions
+
+function을 argument로 가지는 function.
+
+```OCaml
+# let add_high f x = (f (x + 1)) + 2;;
+val add_high : (int -> int) -> int -> int = <fun>
+```
+
+## Let-in expressions
+
+Expressions with local binding.
+
+```OCaml
+# let x = 42 in x + 1
+- : int = 43
+```
+
+```OCaml
+let x = 5 in
+ x
+ +
+ (let y = "3110" in
+ int_of_string y)
+```
+
+## Pattern Matching
+
+'match ... with' case문으로 사용가능하다.
+
+예시를 보장
+
+```OCaml
+(* both are same *)
+let rec fact n =
+ if n = 0 then 1
+ else n * fact (n - 1)
+ 
+let rec fact n =
+ match n with
+ | 0 -> 1
+ | _ -> n * fact (n-1)
+```
+
+```OCaml
+let rec fibo n =
+ match n with
+ | 0 | 1 -> 1
+ | _ -> fibo(n-1) + fibo(n-2)
+```
