@@ -176,27 +176,21 @@ let x = 5 in
  int_of_string y)
 ```
 
-## Pattern Matching
+## Lists
 
-'match ... with' case문으로 사용가능하다.
-
-예시를 보장
+같은 타입을 가진 value들의 sequence.
 
 ```OCaml
-(* both are same *)
-let rec fact n =
- if n = 0 then 1
- else n * fact (n - 1)
- 
-let rec fact n =
- match n with
- | 0 -> 1
- | _ -> n * fact (n-1)
+# [1; 2; 3];;
+- : int list = [1; 2; 3]
 ```
 
+list를 build하는 두 가지 방법이 있다.
+
 ```OCaml
-let rec fibo n =
- match n with
- | 0 | 1 -> 1
- | _ -> fibo(n-1) + fibo(n-2)
+#[] (* nil, empty list를 의미한다.*)
+- : 'a list
+
+#1::[2; 3] (* cons를 사용하여 build할 수 있다.*)
+- : int list [1; 2; 3]
 ```
